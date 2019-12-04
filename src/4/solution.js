@@ -20,14 +20,16 @@ const solution1 = inputLines => {
         const digits = getDigits(current);
         let neverDescends = true;
         let hasDoubleDigits = false;
+        let highestDigit = 0;
         for (let i = 0; i < digits.length - 1; ++i) {
             const currentDigit = digits[i];
             const nextDigit = digits[i + 1];
+            highestDigit = Math.max(currentDigit, highestDigit);
             if (currentDigit === nextDigit) {
                 hasDoubleDigits = true;
             }
-            if (neverDescends && currentDigit > nextDigit) {
-                current += (currentDigit - nextDigit) * Math.pow(10, 4 - i);
+            if (highestDigit > nextDigit) {
+                current += (highestDigit - nextDigit) * Math.pow(10, 4 - i);
                 neverDescends = false;
             }
         }
