@@ -1,0 +1,19 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "get-input": "node scripts/get-input.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "fs-extra": "7.0.1",
+    "node-fetch": "2.3.0",
+    "ramda": "^0.26.1"
+  }
+}
