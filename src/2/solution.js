@@ -4,7 +4,9 @@ const solution1 = inputLines => {
     const values = inputLines[0].split(',').map(
         value => Number.parseInt(value, 10)
     );
-    return intcode(values, 12, 2);
+    values[1] = 12;
+    values[2] = 2;
+    return intcode(values);
 };
 
 const solution2 = inputLines => {
@@ -16,7 +18,9 @@ const solution2 = inputLines => {
     for (let i = 0; i < 100; ++i) {
         for (let j = 0; j < 100; ++j) {
             try {
-                if (intcode(values, i, j) === TARGET) {
+                values[1] = i;
+                values[2] = j;
+                if (intcode(values) === TARGET) {
                     return (i * 100) + j;
                 }
             } catch (e) {
