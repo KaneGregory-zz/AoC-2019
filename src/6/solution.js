@@ -32,22 +32,25 @@ const solution1 = inputLines => {
     return countOrbitsOfAllSatellites('COM', spaceObjects, 1);
 };
 
-const isOrIsOrbitedBy = (center, satellite, spaceObjects) =>
-    satellite != null && (satellite === center || isOrIsOrbitedBy(center, spaceObjects[satellite].center, spaceObjects));
-
-const getDistanceToCenter = (center, satellite, spaceObjects) =>
-    center === satellite ? 0 : 1 + getDistanceToCenter(center, spaceObjects[satellite].center, spaceObjects);
-
 const solution2 = inputLines => {
     const spaceObjects = getSpaceObjectsFromInputLines(inputLines);
-    let sharedCenter = 'YOU';
 
-    while (!isOrIsOrbitedBy(sharedCenter, 'SAN', spaceObjects)) {
-        sharedCenter = spaceObjects[sharedCenter].center;
+    const getAllOrbitsFromCOMToObject = (satellite) => {
+        let orbits = satellite === 'COM' ? [] : getAllOrbitsFromCOMToObject(spaceObjects[satellite].center);
+        orbits.push(satellite);
+        return orbits;
+    };
+
+    const allOrbitsForYou = getAllOrbitsFromCOMToObject('YOU');
+    const allOrbitsForSanta = getAllOrbitsFromCOMToObject('SAN');
+    const amountOfOrbitsForYou = allOrbitsForYou.length;
+    const amountOfOrbitsForSanta = allOrbitsForSanta.length;
+
+    for (let sharedOrbits = 0; sharedOrbits < amountOfOrbitsForYou; ++sharedOrbits) {
+        if (allOrbitsForYou[sharedOrbits] !== allOrbitsForSanta[sharedOrbits]) {
+            return amountOfOrbitsForYou + amountOfOrbitsForSanta - sharedOrbits * 2 - 2;
+        }
     }
-
-    return getDistanceToCenter(sharedCenter, spaceObjects['YOU'].center, spaceObjects)
-        + getDistanceToCenter(sharedCenter, spaceObjects['SAN'].center, spaceObjects);
 };
 
 module.exports = [solution1, solution2];
