@@ -46,11 +46,19 @@ const solution2 = inputLines => {
     const amountOfOrbitsForYou = allOrbitsForYou.length;
     const amountOfOrbitsForSanta = allOrbitsForSanta.length;
 
-    for (let sharedOrbits = 0; sharedOrbits < amountOfOrbitsForYou; ++sharedOrbits) {
-        if (allOrbitsForYou[sharedOrbits] !== allOrbitsForSanta[sharedOrbits]) {
-            return amountOfOrbitsForYou + amountOfOrbitsForSanta - sharedOrbits * 2 - 2;
+    let minimumPossibleFirstDivergence = 0;
+    let maximumPossibleFirstDivergence = Math.min(amountOfOrbitsForYou, amountOfOrbitsForSanta);
+
+    while(minimumPossibleFirstDivergence !== maximumPossibleFirstDivergence) {
+        let currentOrbitToCheck = Math.floor((maximumPossibleFirstDivergence - minimumPossibleFirstDivergence) / 2 + minimumPossibleFirstDivergence);
+        if (allOrbitsForYou[currentOrbitToCheck] === allOrbitsForSanta[currentOrbitToCheck]) {
+            minimumPossibleFirstDivergence = currentOrbitToCheck + 1;
+        } else {
+            maximumPossibleFirstDivergence = currentOrbitToCheck;
         }
     }
+
+    return amountOfOrbitsForYou + amountOfOrbitsForSanta - minimumPossibleFirstDivergence * 2 - 2;
 };
 
 module.exports = [solution1, solution2];
